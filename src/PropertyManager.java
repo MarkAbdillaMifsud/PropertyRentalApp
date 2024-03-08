@@ -48,4 +48,14 @@ public class PropertyManager {
             System.out.println();
         }
     }
+
+    public boolean isPropertyIDUnique(String propertyID, Vector<Property> properties){
+        for(Property property : properties){
+            if(property.getPropertyID().equals(propertyID)){
+                System.out.println(propertyID + " is already being used. Please enter another ID");
+                return false;
+            }
+        }
+        return true;
+    }
 }

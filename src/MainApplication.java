@@ -1,3 +1,5 @@
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class MainApplication {
@@ -5,10 +7,10 @@ public class MainApplication {
     private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         System.out.println("Welcome to your Property Management App!");
-        MainMenu();
+        mainMenu();
     }
 
-    private static void MainMenu(){
+    private static void mainMenu(){
         int choice;
         System.out.println("Please choose an option by entering the corresponding number:");
         System.out.println("1. Add commercial or residential properties");
@@ -38,5 +40,24 @@ public class MainApplication {
                 default: System.out.println("Invalid option entered");
             }
         } while(choice < 1 || choice > 7);
+    }
+
+    private static void addProperty(){
+        System.out.println("Enter a property id. It must be at least 10 characters long.");
+        String propertyID = sc.nextLine();
+        sc.nextLine();
+        System.out.println("Enter a short description of your property");
+        String propertyDescription = sc.nextLine();
+        sc.nextLine();
+        System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
+        String date = sc.nextLine();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate registrationDate = LocalDate.parse(date, dtf);
+        sc.nextLine();
+        System.out.println("Enter the address of your property");
+        String propertyAddress = sc.nextLine();
+        sc.nextLine();
+        //Check Commercial or Residential, or handle optional variables in Property first?
+        //need to store property in variable before setting optionals so start by handling subclass
     }
 }

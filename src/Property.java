@@ -41,7 +41,7 @@ public class Property {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         if(registrationDate.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("Acquisition date cannot be in the future");
+            throw new IllegalArgumentException("Registration date cannot be in the future");
         } else {
             this.registrationDate = registrationDate;
         }
