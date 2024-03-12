@@ -20,7 +20,7 @@ public class PropertyManager {
         this.rentals = rentals;
     }
 
-    public void addProperty(Property property, Vector<Property> properties){
+    public void addProperty(Property property){
         properties.add(property);
     }
 

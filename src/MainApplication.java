@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MainApplication {
 
     private static Scanner sc = new Scanner(System.in);
+    private static PropertyManager propertyManager = new PropertyManager();
     public static void main(String[] args){
         System.out.println("Welcome to your Property Management App!");
         mainMenu();
@@ -23,7 +24,7 @@ public class MainApplication {
         do{
             choice = sc.nextInt();
             switch (choice){
-                case 1: //Add property
+                case 1: addProperty();
                     break;
                 case 2: //Add rental
                     break;
@@ -57,7 +58,64 @@ public class MainApplication {
         System.out.println("Enter the address of your property");
         String propertyAddress = sc.nextLine();
         sc.nextLine();
-        //Check Commercial or Residential, or handle optional variables in Property first?
-        //need to store property in variable before setting optionals so start by handling subclass
+        System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue" );
+        String propertyType = sc.nextLine();
+        sc.nextLine();
+        Property newProperty = null; //required since subclass will be set in if-else block and will result in scope issue if declared in that block
+        if(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial")){
+            System.out.println("What is the license class of the property? Please enter a value between 1 and 8");
+            int propertyLicenceClass = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Does the property have accessibility measures? Enter Y or N");
+            String accessibility = sc.nextLine();
+            boolean isAccessible = false;
+            sc.nextLine();
+            if(accessibility.equalsIgnoreCase("Y") || accessibility.equalsIgnoreCase("Yes")){
+                isAccessible = true;
+            }
+            newProperty = new CommercialProperty(propertyID, propertyDescription, registrationDate, propertyAddress, propertyLicenceClass, isAccessible);
+        } else if(propertyType.equalsIgnoreCase("R") || propertyType.equalsIgnoreCase("Residential")){
+            System.out.println("How many bedrooms does the property have?");
+            int numOfBedrooms = sc.nextInt();
+            sc.nextLine();
+            System.out.println("How many bathrooms does the property have?");
+            int numOfBathrooms = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Does the property have views? Enter Y or N");
+            String views = sc.nextLine();
+            boolean hasViews = false;
+            sc.nextLine();
+            if(views.equalsIgnoreCase("Y") || views.equalsIgnoreCase("Yes")){
+                hasViews = true;
+            }
+            System.out.println("What year was the property built?");
+            int year = sc.nextInt();
+            sc.nextLine();
+            newProperty = new ResidentialProperty(propertyID, propertyDescription, registrationDate, propertyAddress, numOfBedrooms, numOfBathrooms, hasViews, year);
+        }
+        System.out.println("What is the total area of the property in square metres? Leave blank to skip");
+        String areaInput = sc.nextLine();
+        sc.nextLine();
+        if(!areaInput.isEmpty()){
+            try{
+                double totalArea = Double.parseDouble(areaInput);
+                newProperty.setArea(totalArea);
+            } catch (NumberFormatException e){
+                System.out.println("Invalid value entered");
+            }
+        }
+        System.out.println("What is the monthly rental price of this property?");
+        String priceInput = sc.nextLine();
+        sc.nextLine();
+        if(!priceInput.isEmpty()){
+            try{
+                float monthlyPrice = Float.parseFloat(priceInput);
+                newProperty.setMonthlyRentalPrice(monthlyPrice);
+            } catch (NumberFormatException e){
+                System.out.println("Invalid value entered");
+            }
+        }
+        propertyManager.addProperty(newProperty);
+        mainMenu();
     }
 }
