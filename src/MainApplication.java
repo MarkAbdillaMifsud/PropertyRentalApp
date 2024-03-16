@@ -30,9 +30,9 @@ public class MainApplication {
                     break;
                 case 2: addRental();
                     break;
-                case 3: //View all properties
+                case 3: viewAllProperties();
                     break;
-                case 4: //View rent summary
+                case 4: viewRentalSummary();
                     break;
                 case 5: //Save
                     break;
@@ -146,5 +146,13 @@ public class MainApplication {
 
         propertyManager.addRental(newRental);
         mainMenu();
+    }
+
+    private static void viewAllProperties(){
+        propertyManager.viewProperties();
+    }
+
+    private static void viewRentalSummary(){
+        propertyManager.viewRentals();
     }
 }

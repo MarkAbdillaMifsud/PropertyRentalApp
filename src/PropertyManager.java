@@ -28,19 +28,13 @@ public class PropertyManager {
         rentals.add(rental);
     }
 
-    public void viewProperties(Vector<Property> properties){
+    public void viewProperties(){
         for(Property property : properties){
-            System.out.println(property.getPropertyID());
-            System.out.println(property.getPropertyDescription());
-            System.out.println(property.getRegistrationDate());
-            System.out.println(property.getPropertyAddress());
-            System.out.println(property.getArea());
-            System.out.println(property.getMonthlyRentalPrice());
-            System.out.println();
+            property.printDetailedInfo();
         }
     }
 
-    public void viewRentals(Vector<Rental> rentals){
+    public void viewRentals(){
         for(Rental rental : rentals){
             System.out.println(rental.getProperty());
             System.out.println(rental.getRentalStartDate());

@@ -29,4 +29,12 @@ public class CommercialProperty extends Property {
     public void setAccessible(boolean accessible) {
         isAccessible = accessible;
     }
+
+    @Override
+    public void printDetailedInfo() {
+        super.printDetailedInfo(); // Call the parent method to print common details
+        System.out.println("Property License Class: " + getPropertyLicenseClass());
+        System.out.println("Is Accessible: " + isAccessible());
+        System.out.println(); // Blank line for separation
+    }
 }

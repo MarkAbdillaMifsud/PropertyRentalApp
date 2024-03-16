@@ -55,4 +55,14 @@ public class ResidentialProperty extends Property {
     public void setBuildYear(int buildYear) {
         this.buildYear = buildYear;
     }
+
+    @Override
+    public void printDetailedInfo() {
+        super.printDetailedInfo(); // Call the parent method to print common details
+        System.out.println("Number of Bedrooms: " + getNumOfBedrooms());
+        System.out.println("Number of Bathrooms: " + getNumOfBathrooms());
+        System.out.println("Has Views: " + isHasViews());
+        System.out.println("Build Year: " + getBuildYear());
+        System.out.println(); // Blank line for separation
+    }
 }

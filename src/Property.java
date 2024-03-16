@@ -80,4 +80,13 @@ public class Property {
             this.monthlyRentalPrice = monthlyRentalPrice;
         }
     }
+
+    public void printDetailedInfo(){
+        System.out.println("Property ID: " + getPropertyID());
+        System.out.println("Description: " + getPropertyDescription());
+        System.out.println("Registration Date: " + getRegistrationDate());
+        System.out.println("Address: " + getPropertyAddress());
+        System.out.println("Area: " + getArea());
+        System.out.println("Monthly Rental Price: $" + getMonthlyRentalPrice());
+    }
 }
