@@ -1,3 +1,5 @@
+import com.sun.tools.javac.Main;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class MainApplication {
             switch (choice){
                 case 1: addProperty();
                     break;
-                case 2: //Add rental
+                case 2: addRental();
                     break;
                 case 3: //View all properties
                     break;
@@ -116,6 +118,33 @@ public class MainApplication {
             }
         }
         propertyManager.addProperty(newProperty);
+        mainMenu();
+    }
+
+    private static void addRental(){
+        /*
+        Loop through Property Vector to find the property ID we inserted, then store that property object into a variable to go into constructor
+         */
+        System.out.println("Insert the propertyID of the property you would like to rent out");
+        String propertyID = sc.nextLine();
+        if(!propertyManager.doesPropertyIDExist(propertyID)){
+            System.out.println(propertyID + " does not exist in the property list. You can only rent out an existing property");
+            mainMenu();
+        }
+        Property propertyToRent = propertyManager.findPropertyByPropertyID(propertyID);
+        System.out.println("Please enter the date of the start of the rental");
+        String startDate = sc.nextLine();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate rentalStartDate = LocalDate.parse(startDate, dtf);
+        sc.nextLine();
+        System.out.println("Please enter the end date of the rental");
+        String endDate = sc.nextLine();
+        LocalDate rentalEndDate = LocalDate.parse(endDate, dtf);
+        sc.nextLine();
+
+        Rental newRental = new Rental(propertyToRent, rentalStartDate, rentalEndDate);
+
+        propertyManager.addRental(newRental);
         mainMenu();
     }
 }

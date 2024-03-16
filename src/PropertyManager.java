@@ -24,7 +24,7 @@ public class PropertyManager {
         properties.add(property);
     }
 
-    public void addRental(Rental rental, Vector<Rental> rentals){
+    public void addRental(Rental rental){
         rentals.add(rental);
     }
 
@@ -49,7 +49,7 @@ public class PropertyManager {
         }
     }
 
-    public boolean isPropertyIDUnique(String propertyID, Vector<Property> properties){
+    public boolean isPropertyIDUnique(String propertyID){
         for(Property property : properties){
             if(property.getPropertyID().equals(propertyID)){
                 System.out.println(propertyID + " is already being used. Please enter another ID");
@@ -57,5 +57,23 @@ public class PropertyManager {
             }
         }
         return true;
+    }
+
+    public boolean doesPropertyIDExist(String propertyID){
+        for(Property property : properties){
+            if(property.getPropertyID().equals(propertyID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Property findPropertyByPropertyID(String propertyID){
+        for(Property property : properties){
+            if(property.getPropertyID().equals(propertyID)){
+                return property;
+            }
+        }
+        return null;
     }
 }
