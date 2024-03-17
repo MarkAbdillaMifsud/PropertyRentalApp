@@ -1,5 +1,4 @@
-import com.sun.tools.javac.Main;
-
+import java.io.IOException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -8,12 +7,12 @@ public class MainApplication {
 
     private static Scanner sc = new Scanner(System.in);
     private static PropertyManager propertyManager = new PropertyManager();
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Welcome to your Property Management App!");
         mainMenu();
     }
 
-    private static void mainMenu(){
+    private static void mainMenu() {
         int choice;
         System.out.println("Please choose an option by entering the corresponding number:");
         System.out.println("1. Add commercial or residential properties");
@@ -34,11 +33,11 @@ public class MainApplication {
                     break;
                 case 4: viewRentalSummary();
                     break;
-                case 5: //Save
+                case 5: saveListOfProperties();
                     break;
-                case 6: //Load
+                case 6: loadListOfProperties();
                     break;
-                case 7: //Exit
+                case 7: System.exit(0);
                     break;
                 default: System.out.println("Invalid option entered");
             }
@@ -48,7 +47,6 @@ public class MainApplication {
     private static void addProperty(){
         System.out.println("Enter a property id. It must be at least 10 characters long.");
         String propertyID = sc.nextLine();
-        sc.nextLine();
         System.out.println("Enter a short description of your property");
         String propertyDescription = sc.nextLine();
         sc.nextLine();
@@ -150,9 +148,31 @@ public class MainApplication {
 
     private static void viewAllProperties(){
         propertyManager.viewProperties();
+        mainMenu();
     }
 
     private static void viewRentalSummary(){
         propertyManager.viewRentals();
+        mainMenu();
+    }
+
+    private static void saveListOfProperties() {
+        try{
+            propertyManager.saveFile();
+        } catch (IOException e){
+            System.out.println("Failed to save properties to file");
+            throw new RuntimeException("Error saving properties", e);
+        }
+        mainMenu();
+    }
+
+    private static void loadListOfProperties() {
+        try{
+            propertyManager.loadFile();
+        } catch (IOException e){
+            System.out.println("Failed to load properties from file");
+            throw new RuntimeException("Error loading properties", e);
+        }
+        mainMenu();
     }
 }

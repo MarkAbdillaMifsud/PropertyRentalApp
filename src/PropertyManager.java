@@ -1,6 +1,7 @@
+import java.io.*;
 import java.util.Vector;
 
-public class PropertyManager {
+public class PropertyManager implements Serializable {
     private Vector<Property> properties = new Vector<>();
     private Vector<Rental> rentals = new Vector<>();
 
@@ -69,5 +70,17 @@ public class PropertyManager {
             }
         }
         return null;
+    }
+
+    public void saveFile() throws IOException {
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("propertyList.dat"));
+        os.writeObject(properties);
+        os.writeObject(rentals);
+        os.close();
+    }
+
+    public void loadFile() throws IOException {
+        ObjectInputStream is = new ObjectInputStream(new FileInputStream("propertyList.dat"));
+        //TODO: Finish this method to load the list back into the program
     }
 }
