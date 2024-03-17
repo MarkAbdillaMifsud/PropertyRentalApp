@@ -87,6 +87,6 @@ public class Property {
         System.out.println("Registration Date: " + getRegistrationDate());
         System.out.println("Address: " + getPropertyAddress());
         System.out.println("Area: " + getArea());
-        System.out.println("Monthly Rental Price: $" + getMonthlyRentalPrice());
+        System.out.println("Monthly Rental Price: €" + getMonthlyRentalPrice());
     }
 }

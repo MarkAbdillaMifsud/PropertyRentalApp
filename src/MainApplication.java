@@ -24,6 +24,7 @@ public class MainApplication {
         System.out.println("7. Exit Application");
         do{
             choice = sc.nextInt();
+            sc.nextLine();
             switch (choice){
                 case 1: addProperty();
                     break;
@@ -49,18 +50,14 @@ public class MainApplication {
         String propertyID = sc.nextLine();
         System.out.println("Enter a short description of your property");
         String propertyDescription = sc.nextLine();
-        sc.nextLine();
         System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
         String date = sc.nextLine();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate registrationDate = LocalDate.parse(date, dtf);
-        sc.nextLine();
         System.out.println("Enter the address of your property");
         String propertyAddress = sc.nextLine();
-        sc.nextLine();
         System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue" );
         String propertyType = sc.nextLine();
-        sc.nextLine();
         Property newProperty = null; //required since subclass will be set in if-else block and will result in scope issue if declared in that block
         if(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial")){
             System.out.println("What is the license class of the property? Please enter a value between 1 and 8");
@@ -69,7 +66,6 @@ public class MainApplication {
             System.out.println("Does the property have accessibility measures? Enter Y or N");
             String accessibility = sc.nextLine();
             boolean isAccessible = false;
-            sc.nextLine();
             if(accessibility.equalsIgnoreCase("Y") || accessibility.equalsIgnoreCase("Yes")){
                 isAccessible = true;
             }
@@ -84,7 +80,6 @@ public class MainApplication {
             System.out.println("Does the property have views? Enter Y or N");
             String views = sc.nextLine();
             boolean hasViews = false;
-            sc.nextLine();
             if(views.equalsIgnoreCase("Y") || views.equalsIgnoreCase("Yes")){
                 hasViews = true;
             }
@@ -95,7 +90,6 @@ public class MainApplication {
         }
         System.out.println("What is the total area of the property in square metres? Leave blank to skip");
         String areaInput = sc.nextLine();
-        sc.nextLine();
         if(!areaInput.isEmpty()){
             try{
                 double totalArea = Double.parseDouble(areaInput);
@@ -106,7 +100,6 @@ public class MainApplication {
         }
         System.out.println("What is the monthly rental price of this property?");
         String priceInput = sc.nextLine();
-        sc.nextLine();
         if(!priceInput.isEmpty()){
             try{
                 float monthlyPrice = Float.parseFloat(priceInput);
@@ -152,7 +145,7 @@ public class MainApplication {
     }
 
     private static void viewRentalSummary(){
-        propertyManager.viewRentals();
+        propertyManager.calculateTotalRents();
         mainMenu();
     }
 
