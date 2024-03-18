@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.*;
 
-public class ResidentialProperty extends Property {
+public class ResidentialProperty extends Property implements Serializable {
     private int numOfBedrooms;
     private int numOfBathrooms;
     private boolean hasViews;

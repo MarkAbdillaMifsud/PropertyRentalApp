@@ -1,5 +1,6 @@
+import java.io.Serializable;
 import java.time.*;
-public class Property {
+public class Property implements Serializable {
     private String propertyID;
     private String propertyDescription;
     private LocalDate registrationDate;

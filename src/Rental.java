@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Rental {
+public class Rental implements Serializable {
     private Property property;
     private LocalDate rentalStartDate;
     private LocalDate rentalEndDate;

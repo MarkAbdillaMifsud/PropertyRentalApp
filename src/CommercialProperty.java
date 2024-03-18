@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CommercialProperty extends Property {
+public class CommercialProperty extends Property implements Serializable {
     private int propertyLicenseClass;
     private boolean isAccessible;
 

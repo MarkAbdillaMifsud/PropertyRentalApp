@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class MainApplication {
+public class MainApplication implements Serializable {
 
     private static Scanner sc = new Scanner(System.in);
     private static PropertyManager propertyManager = new PropertyManager();
