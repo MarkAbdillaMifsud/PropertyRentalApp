@@ -105,6 +105,14 @@ public class PropertyManager implements Serializable {
 
     public void loadFile() throws IOException {
         ObjectInputStream is = new ObjectInputStream(new FileInputStream("propertyList.dat"));
-        //TODO: Finish this method to load the list back into the program
+        try{
+            properties = (Vector<Property>) is.readObject();
+            rentals = (Vector<Rental>) is.readObject();
+        } catch(FileNotFoundException e){
+            System.out.println("File does not exist");
+        } catch(ClassNotFoundException e){
+            System.out.println("A class in the serialized object cannot be found");
+        }
+        is.close();
     }
 }

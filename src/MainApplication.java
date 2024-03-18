@@ -155,7 +155,6 @@ public class MainApplication implements Serializable {
             propertyManager.saveFile();
         } catch (IOException e){
             System.out.println("Failed to save properties to file");
-            throw new RuntimeException("Error saving properties", e);
         }
         mainMenu();
     }
@@ -164,8 +163,7 @@ public class MainApplication implements Serializable {
         try{
             propertyManager.loadFile();
         } catch (IOException e){
-            System.out.println("Failed to load properties from file");
-            throw new RuntimeException("Error loading properties", e);
+            System.out.println("Failed to load properties from file. Please make sure the file exists and try again.");
         }
         mainMenu();
     }
