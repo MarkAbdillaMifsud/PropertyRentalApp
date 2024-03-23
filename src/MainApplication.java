@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainApplication implements Serializable {
@@ -15,35 +16,41 @@ public class MainApplication implements Serializable {
 
     private static void mainMenu() {
         int choice;
-        System.out.println("Please choose an option by entering the corresponding number:");
-        System.out.println("1. Add commercial or residential properties");
-        System.out.println("2. Add rental agreements");
-        System.out.println("3. View all properties");
-        System.out.println("4. View rent summary");
-        System.out.println("5. Save file");
-        System.out.println("6. Load file");
-        System.out.println("7. Exit Application");
-        do{
-            choice = sc.nextInt();
-            sc.nextLine();
-            switch (choice){
-                case 1: addProperty();
-                    break;
-                case 2: addRental();
-                    break;
-                case 3: viewAllProperties();
-                    break;
-                case 4: viewRentalSummary();
-                    break;
-                case 5: saveListOfProperties();
-                    break;
-                case 6: loadListOfProperties();
-                    break;
-                case 7: System.exit(0);
-                    break;
-                default: System.out.println("Invalid option entered");
+        while (true) { // Loop continues until valid option is entered
+            System.out.println("Please choose an option by entering the corresponding number:");
+            System.out.println("1. Add commercial or residential properties");
+            System.out.println("2. Add rental agreements");
+            System.out.println("3. View all properties");
+            System.out.println("4. View rent summary");
+            System.out.println("5. Save file");
+            System.out.println("6. Load file");
+            System.out.println("7. Exit Application");
+
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+                switch (choice) {
+                    case 1: addProperty();
+                        break;
+                    case 2: addRental();
+                        break;
+                    case 3: viewAllProperties();
+                        break;
+                    case 4: viewRentalSummary();
+                        break;
+                    case 5: saveListOfProperties();
+                        break;
+                    case 6: loadListOfProperties();
+                        break;
+                    case 7: System.exit(0); // Exit application
+                        break;
+                    default: System.out.println("Invalid option entered. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You must enter a number to continue. Please try again.");
+                sc.nextLine();
             }
-        } while(choice < 1 || choice > 7);
+        }
     }
 
     private static void addProperty(){
@@ -52,7 +59,7 @@ public class MainApplication implements Serializable {
         System.out.println("Enter a short description of your property");
         String propertyDescription = sc.nextLine();
         System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
-        String date = sc.nextLine();
+        String date = sc.nextLine(); //TODO: try catch for DateTimeParseException
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate registrationDate = LocalDate.parse(date, dtf);
         System.out.println("Enter the address of your property");
