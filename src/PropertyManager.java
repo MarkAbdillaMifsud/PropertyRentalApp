@@ -23,8 +23,10 @@ public class PropertyManager implements Serializable {
         this.rentals = rentals;
     }
 
-    public void addProperty(Property property){
-        properties.add(property);
+    public void addProperty(Property newProperty, Vector<Property> properties, int numbersSoFar){
+        int pos = findPosition(newProperty.getPropertyID(), properties, numbersSoFar);
+        shift(pos, properties, numbersSoFar);
+        properties.set(pos, newProperty);
     }
 
     public void addRental(Rental rental){
@@ -114,5 +116,21 @@ public class PropertyManager implements Serializable {
             System.out.println("A class in the serialized object cannot be found");
         }
         is.close();
+    }
+
+    private void shift(int pos, Vector<Property> properties, int numbersSoFar){
+        properties.add(null); //adds element at end of Vector to have space for shift
+        for(int i = numbersSoFar; i > pos; i--){
+            properties.set(i, properties.get(i - 1));
+        }
+    }
+
+    private int findPosition(String propertyID, Vector<Property> properties, int numbersSoFar){
+        for(int i = 0; i < numbersSoFar; i++){
+            if(propertyID.compareTo(properties.get(i).getPropertyID()) < 0){
+                return i;
+            }
+        }
+        return numbersSoFar;
     }
 }

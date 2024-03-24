@@ -116,7 +116,7 @@ public class MainApplication implements Serializable {
                 System.out.println("Invalid value entered");
             }
         }
-        propertyManager.addProperty(newProperty);
+        propertyManager.addProperty(newProperty, propertyManager.getProperties(), propertyManager.getProperties().size());
         mainMenu();
     }
 
