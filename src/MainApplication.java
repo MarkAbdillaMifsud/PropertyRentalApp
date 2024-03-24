@@ -56,6 +56,9 @@ public class MainApplication implements Serializable {
     private static void addProperty(){
         System.out.println("Enter a property id. It must be at least 10 characters long.");
         String propertyID = sc.nextLine();
+        while(!propertyManager.isPropertyIDValid(propertyID)){
+            propertyID = sc.nextLine();
+        }
         System.out.println("Enter a short description of your property");
         String propertyDescription = sc.nextLine();
         System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");

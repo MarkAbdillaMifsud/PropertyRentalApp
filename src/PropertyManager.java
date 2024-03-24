@@ -48,12 +48,16 @@ public class PropertyManager implements Serializable {
         }
     }
 
-    public boolean isPropertyIDUnique(String propertyID){
+    public boolean isPropertyIDValid(String propertyID){
         for(Property property : properties){
             if(property.getPropertyID().equals(propertyID)){
                 System.out.println(propertyID + " is already being used. Please enter another ID");
                 return false;
             }
+        }
+        if(propertyID.length() < 10){
+            System.out.println(propertyID + " has less than 10 characters. Please enter another ID");
+            return false;
         }
         return true;
     }
