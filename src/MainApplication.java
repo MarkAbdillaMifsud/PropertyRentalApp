@@ -20,11 +20,12 @@ public class MainApplication implements Serializable {
             System.out.println("Please choose an option by entering the corresponding number:");
             System.out.println("1. Add commercial or residential properties");
             System.out.println("2. Add rental agreements");
-            System.out.println("3. View all properties");
-            System.out.println("4. View rent summary");
-            System.out.println("5. Save file");
-            System.out.println("6. Load file");
-            System.out.println("7. Exit Application");
+            System.out.println("3. Edit existing property");
+            System.out.println("4. View all properties");
+            System.out.println("5. View rent summary");
+            System.out.println("6. Save file");
+            System.out.println("7. Load file");
+            System.out.println("8. Exit Application");
 
             try {
                 choice = sc.nextInt();
@@ -34,15 +35,17 @@ public class MainApplication implements Serializable {
                         break;
                     case 2: addRental();
                         break;
-                    case 3: viewAllProperties();
+                    case 3: editProperty();
                         break;
-                    case 4: viewRentalSummary();
+                    case 4: viewAllProperties();
                         break;
-                    case 5: saveListOfProperties();
+                    case 5: viewRentalSummary();
                         break;
-                    case 6: loadListOfProperties();
+                    case 6: saveListOfProperties();
                         break;
-                    case 7: System.exit(0); // Exit application
+                    case 7: loadListOfProperties();
+                        break;
+                    case 8: System.exit(0); // Exit application
                         break;
                     default: System.out.println("Invalid option entered. Please try again.");
                 }
@@ -148,6 +151,73 @@ public class MainApplication implements Serializable {
 
         propertyManager.addRental(newRental);
         mainMenu();
+    }
+
+    private static void editProperty(){
+        System.out.println("Enter a property id to find an existing property");
+        String propertyID = sc.nextLine();
+        sc.nextLine();
+        if(!propertyManager.doesPropertyIDExist(propertyID)){
+            System.out.println(propertyID + " does not exist in the property list. You can only rent out an existing property");
+            mainMenu();
+        }
+        Property property = propertyManager.findPropertyByPropertyID(propertyID);
+        System.out.println("What would you like to change?");
+        System.out.println("1. Change PropertyID");
+        System.out.println("2. Change Description");
+        System.out.println("3. Change Registration Date");
+        System.out.println("4. Change Property Address");
+        System.out.println("5. Change Area of Property");
+        System.out.println("6. Change Monthly Rental Price");
+        System.out.println("7. Delete Property");
+        System.out.println("8. Return to Main Menu");
+        //TODO: Include options for Residential and Commercial using instanceof
+        try {
+            int choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case 1: System.out.println("Enter a new property id");
+                    String newPropertyID = sc.nextLine();
+                    sc.nextLine();
+                    property.setPropertyID(newPropertyID);
+                    //TODO: Include Validation
+                    break;
+                case 2: System.out.println("Enter a new description");
+                    String newDescription = sc.nextLine();
+                    sc.nextLine();
+                    property.setPropertyDescription(newDescription);
+                    break;
+                case 3: System.out.println("Enter a new registration date");
+                    String newDate = sc.nextLine();
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate newRegistrationDate = LocalDate.parse(newDate, dtf);
+                    property.setRegistrationDate(newRegistrationDate);
+                    sc.nextLine();
+                    break;
+                case 4: System.out.println("Enter a new address");
+                    String newAddress = sc.nextLine();
+                    sc.nextLine();
+                    property.setPropertyAddress(newAddress);
+                    break;
+                case 5: System.out.println("Enter a new area");
+                    double newArea = sc.nextDouble();
+                    property.setArea(newArea);
+                    break;
+                case 6: System.out.println("Enter a new rental price");
+                    float newPrice = sc.nextFloat();
+                    property.setMonthlyRentalPrice(newPrice);
+                    break;
+                case 7: propertyManager.removeProperty(propertyID);
+                    System.out.println("Property removed. Please press Enter to return to the Main Menu");
+                    sc.nextLine();
+                    mainMenu();
+                case 8: mainMenu();
+                default: System.out.println("Invalid option entered. Please try again.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("You must enter a number to continue. Please try again.");
+            sc.nextLine();
+        }
     }
 
     private static void viewAllProperties(){

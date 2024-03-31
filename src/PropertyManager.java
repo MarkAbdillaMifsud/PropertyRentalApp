@@ -62,6 +62,16 @@ public class PropertyManager implements Serializable {
         return true;
     }
 
+    public void removeProperty(String propertyID){
+        for(int i = 0; i < properties.size(); i++){
+            Property property = properties.get(i);
+            if(property.getPropertyID().equals(propertyID)){
+                properties.remove(i);
+                return;
+            }
+        }
+    }
+
     public boolean doesPropertyIDExist(String propertyID){
         for(Property property : properties){
             if(property.getPropertyID().equals(propertyID)){
@@ -79,6 +89,7 @@ public class PropertyManager implements Serializable {
         }
         return null;
     }
+
 
     public void calculateTotalRents(){
         HashMap<String, Float> totalRents = new HashMap<>();
