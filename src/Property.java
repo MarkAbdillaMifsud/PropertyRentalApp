@@ -15,6 +15,9 @@ public class Property implements Serializable {
         this.propertyAddress = propertyAddress;
     }
 
+    /*
+    Getters and setters
+     */
     public String getPropertyID() {
         return propertyID;
     }
@@ -82,6 +85,9 @@ public class Property implements Serializable {
         }
     }
 
+    /*
+    Method for users to view property details
+     */
     public void printDetailedInfo(){
         System.out.println("Property ID: " + getPropertyID());
         System.out.println("Description: " + getPropertyDescription());

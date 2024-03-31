@@ -58,6 +58,9 @@ public class MainApplication implements Serializable {
     }
 
     private static void addProperty(){
+        /*
+        Required variables
+         */
         System.out.println("Enter a property id. It must be at least 10 characters long.");
         String propertyID = sc.nextLine();
         while(!propertyManager.isPropertyIDValid(propertyID)){
@@ -78,6 +81,9 @@ public class MainApplication implements Serializable {
         }
         System.out.println("Enter the address of your property");
         String propertyAddress = sc.nextLine();
+        /*
+        Commercial or Residential check
+         */
         System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue" );
         String propertyType = sc.nextLine();
         Property newProperty = null; //required since subclass will be set in if-else block and will result in scope issue if declared in that block
@@ -110,9 +116,12 @@ public class MainApplication implements Serializable {
             sc.nextLine();
             newProperty = new ResidentialProperty(propertyID, propertyDescription, registrationDate, propertyAddress, numOfBedrooms, numOfBathrooms, hasViews, year);
         }
+        /*
+        Optional variables
+         */
         System.out.println("What is the total area of the property in square metres? Leave blank to skip");
         String areaInput = sc.nextLine();
-        if(!areaInput.isEmpty()){
+        if(!areaInput.isEmpty()){ //allow no input since variable is optional
             try{
                 double totalArea = Double.parseDouble(areaInput);
                 newProperty.setArea(totalArea);
@@ -130,6 +139,9 @@ public class MainApplication implements Serializable {
                 System.out.println("Invalid value entered");
             }
         }
+        /*
+        Insertion sort to place the property object into the Vector
+         */
         propertyManager.addProperty(newProperty, propertyManager.getProperties(), propertyManager.getProperties().size());
         mainMenu();
     }

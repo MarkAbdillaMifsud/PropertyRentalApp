@@ -12,6 +12,10 @@ public class Rental implements Serializable {
         this.rentalEndDate = rentalEndDate;
     }
 
+    /*
+    Getters and Setters
+     */
+
     public Property getProperty() {
         return property;
     }

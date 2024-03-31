@@ -15,6 +15,9 @@ public class ResidentialProperty extends Property implements Serializable {
         this.buildYear = buildYear;
     }
 
+    /*
+    Getters and Setters
+     */
     public int getNumOfBedrooms() {
         return numOfBedrooms;
     }
@@ -57,6 +60,9 @@ public class ResidentialProperty extends Property implements Serializable {
         this.buildYear = buildYear;
     }
 
+    /*
+    Method for users to view residential property details
+     */
     @Override
     public void printDetailedInfo() {
         super.printDetailedInfo(); // Call the parent method to print common details

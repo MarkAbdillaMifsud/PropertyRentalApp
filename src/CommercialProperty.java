@@ -11,6 +11,10 @@ public class CommercialProperty extends Property implements Serializable {
         this.isAccessible = isAccessible;
     }
 
+    /*
+    Getters and Setters
+     */
+
     public int getPropertyLicenseClass() {
         return propertyLicenseClass;
     }
@@ -31,6 +35,9 @@ public class CommercialProperty extends Property implements Serializable {
         isAccessible = accessible;
     }
 
+    /*
+    Method for users to view commercial property details
+     */
     @Override
     public void printDetailedInfo() {
         super.printDetailedInfo(); // Call the parent method to print common details
