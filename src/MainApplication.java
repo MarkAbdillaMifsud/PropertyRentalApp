@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -64,10 +65,17 @@ public class MainApplication implements Serializable {
         }
         System.out.println("Enter a short description of your property");
         String propertyDescription = sc.nextLine();
-        System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
-        String date = sc.nextLine(); //TODO: try catch for DateTimeParseException
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate registrationDate = LocalDate.parse(date, dtf);
+        LocalDate registrationDate = null; //value to check in case of parse exception
+        while(registrationDate == null){
+            System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
+            String date = sc.nextLine();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            try{
+                registrationDate = LocalDate.parse(date, dtf);
+            } catch (DateTimeParseException e){
+                System.out.println("Error: The date was entered in an incorrect format.");
+            }
+        }
         System.out.println("Enter the address of your property");
         String propertyAddress = sc.nextLine();
         System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue" );
@@ -162,61 +170,151 @@ public class MainApplication implements Serializable {
             mainMenu();
         }
         Property property = propertyManager.findPropertyByPropertyID(propertyID);
-        System.out.println("What would you like to change?");
-        System.out.println("1. Change PropertyID");
-        System.out.println("2. Change Description");
-        System.out.println("3. Change Registration Date");
-        System.out.println("4. Change Property Address");
-        System.out.println("5. Change Area of Property");
-        System.out.println("6. Change Monthly Rental Price");
-        System.out.println("7. Delete Property");
-        System.out.println("8. Return to Main Menu");
-        //TODO: Include options for Residential and Commercial using instanceof
-        try {
-            int choice = sc.nextInt();
-            sc.nextLine();
-            switch (choice) {
-                case 1: System.out.println("Enter a new property id");
-                    String newPropertyID = sc.nextLine();
-                    sc.nextLine();
-                    property.setPropertyID(newPropertyID);
-                    //TODO: Include Validation
-                    break;
-                case 2: System.out.println("Enter a new description");
-                    String newDescription = sc.nextLine();
-                    sc.nextLine();
-                    property.setPropertyDescription(newDescription);
-                    break;
-                case 3: System.out.println("Enter a new registration date");
-                    String newDate = sc.nextLine();
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate newRegistrationDate = LocalDate.parse(newDate, dtf);
-                    property.setRegistrationDate(newRegistrationDate);
-                    sc.nextLine();
-                    break;
-                case 4: System.out.println("Enter a new address");
-                    String newAddress = sc.nextLine();
-                    sc.nextLine();
-                    property.setPropertyAddress(newAddress);
-                    break;
-                case 5: System.out.println("Enter a new area");
-                    double newArea = sc.nextDouble();
-                    property.setArea(newArea);
-                    break;
-                case 6: System.out.println("Enter a new rental price");
-                    float newPrice = sc.nextFloat();
-                    property.setMonthlyRentalPrice(newPrice);
-                    break;
-                case 7: propertyManager.removeProperty(propertyID);
-                    System.out.println("Property removed. Please press Enter to return to the Main Menu");
-                    sc.nextLine();
-                    mainMenu();
-                case 8: mainMenu();
-                default: System.out.println("Invalid option entered. Please try again.");
+        int choice = 0;
+
+        while(choice < 1 || choice > 10){
+            System.out.println("What would you like to change?");
+            System.out.println("1. Change PropertyID");
+            System.out.println("2. Change Description");
+            System.out.println("3. Change Registration Date");
+            System.out.println("4. Change Property Address");
+            System.out.println("5. Change Area of Property");
+            System.out.println("6. Change Monthly Rental Price");
+            System.out.println("7. Delete Property");
+            if(property instanceof ResidentialProperty){
+                System.out.println("8. Edit Residential Property attributes");
+            } else if(property instanceof CommercialProperty){
+                System.out.println("8. Edit Commercial Property attributes");
             }
-        } catch (InputMismatchException e) {
-            System.out.println("You must enter a number to continue. Please try again.");
-            sc.nextLine();
+            System.out.println("9. Return to Main Menu");
+            try {
+                choice = sc.nextInt();
+                sc.nextLine();
+                switch (choice) {
+                    case 1: System.out.println("Enter a new property id");
+                        String newPropertyID = sc.nextLine();
+                        sc.nextLine();
+                        property.setPropertyID(newPropertyID);
+                        //TODO: Include Validation
+                        break;
+                    case 2: System.out.println("Enter a new description");
+                        String newDescription = sc.nextLine();
+                        sc.nextLine();
+                        property.setPropertyDescription(newDescription);
+                        break;
+                    case 3: System.out.println("Enter a new registration date");
+                        String newDate = sc.nextLine();
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate newRegistrationDate = LocalDate.parse(newDate, dtf);
+                        property.setRegistrationDate(newRegistrationDate);
+                        sc.nextLine();
+                        break;
+                    case 4: System.out.println("Enter a new address");
+                        String newAddress = sc.nextLine();
+                        sc.nextLine();
+                        property.setPropertyAddress(newAddress);
+                        break;
+                    case 5: System.out.println("Enter a new area");
+                        double newArea = sc.nextDouble();
+                        property.setArea(newArea);
+                        break;
+                    case 6: System.out.println("Enter a new rental price");
+                        float newPrice = sc.nextFloat();
+                        property.setMonthlyRentalPrice(newPrice);
+                        break;
+                    case 7: propertyManager.removeProperty(propertyID);
+                        System.out.println("Property removed. Please press Enter to return to the Main Menu");
+                        sc.nextLine();
+                        mainMenu();
+                    case 8: if(property instanceof ResidentialProperty residentialProperty) {
+                        editResidentialProperties(residentialProperty);
+                    } else if(property instanceof CommercialProperty commercialProperty){
+                        editCommercialProperties(commercialProperty);
+                    }
+                        break;
+                    case 9: mainMenu();
+                    default: System.out.println("Invalid option entered. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You must enter a number to continue. Please try again.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private static void editResidentialProperties(ResidentialProperty property){
+        int choice = 0;
+        while(choice < 1 || choice > 5){
+            System.out.println("1. Edit Number of Bedrooms");
+            System.out.println("2. Edit Number of Bathrooms");
+            System.out.println("3. Edit Views");
+            System.out.println("4. Edit Year of Build");
+            System.out.println("5. Return to Main Menu");
+            try{
+                choice = sc.nextInt();
+                switch (choice){
+                    case 1: System.out.println("Enter the number of bedrooms in the property");
+                        int newNumBedrooms = sc.nextInt();
+                        property.setNumOfBedrooms(newNumBedrooms);
+                        break;
+                    case 2: System.out.println("Enter the number of bathrooms in the property");
+                        int numNewBathrooms = sc.nextInt();
+                        property.setNumOfBathrooms(numNewBathrooms);
+                        break;
+                    case 3: System.out.println("Does the property have views?");
+                        String newViews = sc.nextLine();
+                        if(newViews.equalsIgnoreCase("Y") || newViews.equalsIgnoreCase("Yes")){
+                            property.setHasViews(true);
+                        } else {
+                            property.setHasViews(false);
+                        }
+                        break;
+                    case 4: System.out.println("What year was the property built?");
+                        int newBuildYear = sc.nextInt();
+                        property.setBuildYear(newBuildYear);
+                        break;
+                    case 5: mainMenu();
+                    default: System.out.println("Invalid option entered. Please try again.");
+                }
+            } catch (InputMismatchException e){
+                System.out.println("You must enter a number to continue. Please try again.");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private static void editCommercialProperties(CommercialProperty property){
+        int choice = 0;
+        while(choice < 1 || choice > 3) {
+            System.out.println("1. Edit Property Licence Class");
+            System.out.println("2. Edit Property Accessibility");
+            System.out.println("3. Return to Main Menu");
+            try {
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter the property licence class number");
+                        int newClassNum = sc.nextInt();
+                        property.setPropertyLicenseClass(newClassNum);
+                        break;
+                    case 2:
+                        System.out.println("Is the property accessible?");
+                        String newAccessible = sc.nextLine();
+                        if (newAccessible.equalsIgnoreCase("Y") || newAccessible.equalsIgnoreCase("Yes")) {
+                            property.setAccessible(true);
+                        } else {
+                            property.setAccessible(false);
+                        }
+                        break;
+                    case 3:
+                        mainMenu();
+                    default:
+                        System.out.println("Invalid option entered. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("You must enter a number to continue. Please try again.");
+                sc.nextLine();
+            }
         }
     }
 
