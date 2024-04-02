@@ -89,7 +89,13 @@ public class MainApplication implements Serializable {
         Property newProperty = null; //required since subclass will be set in if-else block and will result in scope issue if declared in that block
         if(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial")){
             System.out.println("What is the license class of the property? Please enter a value between 1 and 8");
-            int propertyLicenceClass = sc.nextInt();
+            int propertyLicenceClass;
+            do{
+                propertyLicenceClass = sc.nextInt();
+                if(propertyLicenceClass < 1 || propertyLicenceClass > 8){
+                    System.out.println("Invalid property licence class number. Enter a value between 1 and 8");
+                }
+            } while (propertyLicenceClass < 1 || propertyLicenceClass > 8);
             sc.nextLine();
             System.out.println("Does the property have accessibility measures? Enter Y or N");
             String accessibility = sc.nextLine();
@@ -157,15 +163,29 @@ public class MainApplication implements Serializable {
             mainMenu();
         }
         Property propertyToRent = propertyManager.findPropertyByPropertyID(propertyID);
-        System.out.println("Please enter the date of the start of the rental");
-        String startDate = sc.nextLine();
+        LocalDate rentalStartDate = null;
+        LocalDate rentalEndDate = null;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate rentalStartDate = LocalDate.parse(startDate, dtf);
-        sc.nextLine();
-        System.out.println("Please enter the end date of the rental");
-        String endDate = sc.nextLine();
-        LocalDate rentalEndDate = LocalDate.parse(endDate, dtf);
-        sc.nextLine();
+        while(rentalStartDate == null){
+            try {
+                System.out.println("Please enter the date of the start of the rental");
+                String startDate = sc.nextLine();
+                rentalStartDate = LocalDate.parse(startDate, dtf);
+                sc.nextLine();
+            } catch(DateTimeParseException e){
+                System.out.println("Incorrect date format entered. Please enter it correctly.");
+            }
+        }
+        while(rentalEndDate == null){
+            try{
+                System.out.println("Please enter the end date of the rental");
+                String endDate = sc.nextLine();
+                rentalEndDate = LocalDate.parse(endDate, dtf);
+                sc.nextLine();
+            } catch (DateTimeParseException e){
+                System.out.println("Incorrect date format entered. Please enter it correctly.");
+            }
+        }
 
         Rental newRental = new Rental(propertyToRent, rentalStartDate, rentalEndDate);
 
