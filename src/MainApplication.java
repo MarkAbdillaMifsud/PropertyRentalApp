@@ -10,6 +10,8 @@ public class MainApplication implements Serializable {
 
     private static Scanner sc = new Scanner(System.in);
     private static PropertyManager propertyManager = new PropertyManager();
+    private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public static void main(String[] args) {
         System.out.println("Welcome to your Property Management App!");
         mainMenu();
@@ -72,7 +74,6 @@ public class MainApplication implements Serializable {
         while(registrationDate == null){
             System.out.println("Enter the date of registration in the format YYYY-MM-DD. ");
             String date = sc.nextLine();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             try{
                 registrationDate = LocalDate.parse(date, dtf);
             } catch (DateTimeParseException e){
@@ -165,7 +166,6 @@ public class MainApplication implements Serializable {
         Property propertyToRent = propertyManager.findPropertyByPropertyID(propertyID);
         LocalDate rentalStartDate = null;
         LocalDate rentalEndDate = null;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         while(rentalStartDate == null){
             try {
                 System.out.println("Please enter the date of the start of the rental");
@@ -176,11 +176,19 @@ public class MainApplication implements Serializable {
                 System.out.println("Incorrect date format entered. Please enter it correctly.");
             }
         }
-        while(rentalEndDate == null){
+
+        boolean endDateIsValid = false;
+        while(!endDateIsValid){
             try{
                 System.out.println("Please enter the end date of the rental");
                 String endDate = sc.nextLine();
                 rentalEndDate = LocalDate.parse(endDate, dtf);
+
+                if(rentalEndDate.isAfter(rentalStartDate)){
+                    endDateIsValid = true;
+                } else {
+                    System.out.println("The end date date must be after the start date.");
+                }
                 sc.nextLine();
             } catch (DateTimeParseException e){
                 System.out.println("Incorrect date format entered. Please enter it correctly.");
@@ -236,7 +244,6 @@ public class MainApplication implements Serializable {
                         break;
                     case 3: System.out.println("Enter a new registration date");
                         String newDate = sc.nextLine();
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate newRegistrationDate = LocalDate.parse(newDate, dtf);
                         property.setRegistrationDate(newRegistrationDate);
                         sc.nextLine();
@@ -363,6 +370,7 @@ public class MainApplication implements Serializable {
     private static void saveListOfProperties() {
         try{
             propertyManager.saveFile();
+            sc.nextLine();
         } catch (IOException e){
             System.out.println("Failed to save properties to file");
         }
@@ -372,6 +380,7 @@ public class MainApplication implements Serializable {
     private static void loadListOfProperties() {
         try{
             propertyManager.loadFile();
+            sc.nextLine();
         } catch (IOException e){
             System.out.println("Failed to load properties from file. Please make sure the file exists and try again.");
         }

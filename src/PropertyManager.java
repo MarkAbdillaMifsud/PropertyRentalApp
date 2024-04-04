@@ -6,6 +6,7 @@ import java.util.Vector;
 public class PropertyManager implements Serializable {
     private Vector<Property> properties = new Vector<>();
     private Vector<Rental> rentals = new Vector<>();
+    private final String PROPERTY_FILE = "propertyList.dat";
 
     public Vector<Property> getProperties() {
         return properties;
@@ -177,6 +178,7 @@ public class PropertyManager implements Serializable {
         os.writeObject(properties);
         os.writeObject(rentals);
         os.close();
+        System.out.println("Status successfully saved to " + PROPERTY_FILE);
     }
 
     /*
@@ -184,10 +186,11 @@ public class PropertyManager implements Serializable {
      */
 
     public void loadFile() throws IOException {
-        ObjectInputStream is = new ObjectInputStream(new FileInputStream("propertyList.dat"));
+        ObjectInputStream is = new ObjectInputStream(new FileInputStream(PROPERTY_FILE));
         try{
             properties = (Vector<Property>) is.readObject();
             rentals = (Vector<Rental>) is.readObject();
+            System.out.println(PROPERTY_FILE + " successfully loaded");
         } catch(FileNotFoundException e){
             System.out.println("File does not exist");
         } catch(ClassNotFoundException e){
