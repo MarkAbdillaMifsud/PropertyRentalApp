@@ -85,32 +85,54 @@ public class MainApplication implements Serializable {
         /*
         Commercial or Residential check
          */
-        System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue" );
-        String propertyType = sc.nextLine();
-        Property newProperty = null; //required since subclass will be set in if-else block and will result in scope issue if declared in that block
+        String propertyType = null;
+        Property newProperty = null;
+        do {
+            System.out.println("Is this a commercial or a residential property? Enter 'C' or 'R' to continue");
+            propertyType = sc.nextLine().trim(); // Trim to remove leading and trailing spaces
+
+            // Check if the input is valid
+            if (!(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial") || propertyType.equalsIgnoreCase("R") || propertyType.equalsIgnoreCase("Residential"))) {
+                System.out.println("Invalid input. Please enter 'C' for Commercial or 'R' for Residential.");
+            }
+        } while (!(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial") || propertyType.equalsIgnoreCase("R") || propertyType.equalsIgnoreCase("Residential")));
         if(propertyType.equalsIgnoreCase("C") || propertyType.equalsIgnoreCase("Commercial")){
             System.out.println("What is the license class of the property? Please enter a value between 1 and 8");
-            int propertyLicenceClass;
-            do{
-                propertyLicenceClass = sc.nextInt();
-                if(propertyLicenceClass < 1 || propertyLicenceClass > 8){
-                    System.out.println("Invalid property licence class number. Enter a value between 1 and 8");
-                }
-            } while (propertyLicenceClass < 1 || propertyLicenceClass > 8);
+            int propertyLicenceClass = 0;
+            try{
+                do{
+                    propertyLicenceClass = sc.nextInt();
+                    if(propertyLicenceClass < 1 || propertyLicenceClass > 8){
+                        System.out.println("Invalid property licence class number. Enter a value between 1 and 8");
+                    }
+                } while (propertyLicenceClass < 1 || propertyLicenceClass > 8);
+            } catch (InputMismatchException e){
+                System.out.println("You must enter a number between 1 and 8");
+            }
             sc.nextLine();
             System.out.println("Does the property have accessibility measures? Enter Y or N");
             String accessibility = sc.nextLine();
             boolean isAccessible = false;
             if(accessibility.equalsIgnoreCase("Y") || accessibility.equalsIgnoreCase("Yes")){
                 isAccessible = true;
-            }
+            } //otherwise return false by default
             newProperty = new CommercialProperty(propertyID, propertyDescription, registrationDate, propertyAddress, propertyLicenceClass, isAccessible);
         } else if(propertyType.equalsIgnoreCase("R") || propertyType.equalsIgnoreCase("Residential")){
+            int numOfBedrooms = 0;
             System.out.println("How many bedrooms does the property have?");
-            int numOfBedrooms = sc.nextInt();
+            try{
+                numOfBedrooms = sc.nextInt();
+            } catch (InputMismatchException e){
+                System.out.println("You must enter a number");
+            }
             sc.nextLine();
+            int numOfBathrooms = 0;
             System.out.println("How many bathrooms does the property have?");
-            int numOfBathrooms = sc.nextInt();
+            try{
+                numOfBathrooms = sc.nextInt();
+            } catch (InputMismatchException e){
+                System.out.println("You must enter a number");
+            }
             sc.nextLine();
             System.out.println("Does the property have views? Enter Y or N");
             String views = sc.nextLine();
