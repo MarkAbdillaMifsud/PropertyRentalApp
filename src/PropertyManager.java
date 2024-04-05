@@ -81,7 +81,7 @@ public class PropertyManager implements Serializable {
 
     /*
     Check whether property ID already exists and if it is less than 10 characters.
-    Intended to be used to validate inputs for new properties
+    Intended to be used to validate inputs for new properties as well as when changing existing property ids
      */
 
     public boolean isPropertyIDValid(String propertyID){

@@ -233,9 +233,10 @@ public class MainApplication implements Serializable {
                 switch (choice) {
                     case 1: System.out.println("Enter a new property id");
                         String newPropertyID = sc.nextLine();
-                        sc.nextLine();
+                        while(!propertyManager.isPropertyIDValid(newPropertyID)){
+                            newPropertyID = sc.nextLine();
+                        }
                         property.setPropertyID(newPropertyID);
-                        //TODO: Include Validation
                         break;
                     case 2: System.out.println("Enter a new description");
                         String newDescription = sc.nextLine();
