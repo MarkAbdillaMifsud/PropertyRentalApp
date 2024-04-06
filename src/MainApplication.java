@@ -172,7 +172,7 @@ public class MainApplication implements Serializable {
         Insertion sort to place the property object into the Vector
          */
         propertyManager.addProperty(newProperty, propertyManager.getProperties(), propertyManager.getProperties().size());
-        mainMenu();
+        return;
     }
 
     private static void addRental(){
@@ -183,7 +183,7 @@ public class MainApplication implements Serializable {
         String propertyID = sc.nextLine();
         if(!propertyManager.doesPropertyIDExist(propertyID)){
             System.out.println(propertyID + " does not exist in the property list. You can only rent out an existing property");
-            mainMenu();
+            return;
         }
         Property propertyToRent = propertyManager.findPropertyByPropertyID(propertyID);
         LocalDate rentalStartDate = null;
@@ -220,7 +220,7 @@ public class MainApplication implements Serializable {
         Rental newRental = new Rental(propertyToRent, rentalStartDate, rentalEndDate);
 
         propertyManager.addRental(newRental);
-        mainMenu();
+        return;
     }
 
     private static void editProperty(){
@@ -229,12 +229,12 @@ public class MainApplication implements Serializable {
         sc.nextLine();
         if(!propertyManager.doesPropertyIDExist(propertyID)){
             System.out.println(propertyID + " does not exist in the property list. You can only rent out an existing property");
-            mainMenu();
+            return;
         }
         Property property = propertyManager.findPropertyByPropertyID(propertyID);
         int choice = 0;
 
-        while(choice < 1 || choice > 10){
+        while(true){
             System.out.println("What would you like to change?");
             System.out.println("1. Change PropertyID");
             System.out.println("2. Change Description");
@@ -287,14 +287,14 @@ public class MainApplication implements Serializable {
                     case 7: propertyManager.removeProperty(propertyID);
                         System.out.println("Property removed. Please press Enter to return to the Main Menu");
                         sc.nextLine();
-                        mainMenu();
+                        return;
                     case 8: if(property instanceof ResidentialProperty residentialProperty) {
                         editResidentialProperties(residentialProperty);
                     } else if(property instanceof CommercialProperty commercialProperty){
                         editCommercialProperties(commercialProperty);
                     }
                         break;
-                    case 9: mainMenu();
+                    case 9: return;
                     default: System.out.println("Invalid option entered. Please try again.");
                 }
             } catch (InputMismatchException e) {
@@ -335,7 +335,7 @@ public class MainApplication implements Serializable {
                         int newBuildYear = sc.nextInt();
                         property.setBuildYear(newBuildYear);
                         break;
-                    case 5: mainMenu();
+                    case 5: return;
                     default: System.out.println("Invalid option entered. Please try again.");
                 }
             } catch (InputMismatchException e){
@@ -369,7 +369,7 @@ public class MainApplication implements Serializable {
                         }
                         break;
                     case 3:
-                        mainMenu();
+                        return;
                     default:
                         System.out.println("Invalid option entered. Please try again.");
                 }
@@ -382,12 +382,12 @@ public class MainApplication implements Serializable {
 
     private static void viewAllProperties(){
         propertyManager.viewProperties();
-        mainMenu();
+        return;
     }
 
     private static void viewRentalSummary(){
         propertyManager.calculateTotalRents();
-        mainMenu();
+        return;
     }
 
     private static void saveListOfProperties() {
@@ -397,7 +397,7 @@ public class MainApplication implements Serializable {
         } catch (IOException e){
             System.out.println("Failed to save properties to file");
         }
-        mainMenu();
+        return;
     }
 
     private static void loadListOfProperties() {
@@ -407,6 +407,6 @@ public class MainApplication implements Serializable {
         } catch (IOException e){
             System.out.println("Failed to load properties from file. Please make sure the file exists and try again.");
         }
-        mainMenu();
+        return;
     }
 }
